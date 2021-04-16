@@ -1,0 +1,12 @@
+Flask
+japanize-matplotlib
+matplotlib
+numpy
+openpyxl
+pandas
+scikit-learn
+seaborn
+Werkzeug
+Flask-SQLAlchemy
+SQLAlchemy
+psycopg2-binary

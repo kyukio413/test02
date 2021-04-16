@@ -1,0 +1,25 @@
+version: '3.2'
+
+services: 
+  db:
+    image: postgres:12.3-alpine
+    container_name: 'test02_db'
+    expose:
+      - "5432"
+    environment: 
+      - POSTGRES_DB=flasktest
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  
+  python:
+    image: test02/python:1.0
+    build: ./work
+    container_name: 'test02_python'
+    working_dir: '/workdir'
+    volumes: 
+      - ../work:/workdir
+    depends_on: 
+      - db
+    stdin_open: true
+    tty: true
+    command: /bin/bash
