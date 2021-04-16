@@ -12,7 +12,7 @@ app.secret_key = key
 
 id_pwd = {'Conan': 'Heiji'}
 
-URI = 'postgresql://postgres:postgres@localhost/flasktest'
+URI = 'postgresql://postgres:postgres@test02_db:5432/flasktest'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SQLALCHEMY_DATABASE_URI'] = URI
 db = SQLAlchemy(app)
