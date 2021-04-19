@@ -13,7 +13,7 @@ services:
   
   python:
     image: test02/python:1.0
-    build: ./work
+    build: ./python
     container_name: 'test02_python'
     working_dir: '/workdir'
     volumes: 
