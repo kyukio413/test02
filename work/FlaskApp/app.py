@@ -3,6 +3,8 @@ import os
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
+from flask import send_from_directory
+from reg_graph import reg_graph
 
 
 app = Flask(__name__)
@@ -89,10 +91,18 @@ def delete(id):
   os.remove(delete_file)
   return redirect(url_for('index'))
 
+#単回帰グラフ
+@app.route('/regression')
+def regression():
+  data = Data.query.all()
+  return render_template('regression_select.html', data=data)
 
-@app.route('/kaminari')
-def kaminari():
-  return '霹靂一閃'
+@app.route('/regression_graph/<int:id>', methods=['GET'])
+def regression_graph(id):
+  data = Data.query.get(id)
+  file_path = data.file_path
+  graph_path = reg_graph(file_path)
+  return send_from_directory('download', graph_path, as_attachment=True)
 
 
 if __name__ == '__main__':
