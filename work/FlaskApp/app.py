@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from reg_graph import reg_graph
+from pred_file import pred_file
 
 
 app = Flask(__name__)
@@ -103,6 +104,23 @@ def regression_graph(id):
   file_path = data.file_path
   graph_path = reg_graph(file_path)
   return send_from_directory('download', graph_path, as_attachment=True)
+
+#単回帰予測
+@app.route('/predict')
+def predict():
+  data = Data.query.all()
+  return render_template('predict_select.html', data=data)
+
+@app.route('/predict_file', methods=['POST'])
+def predict_file():
+  file_id = request.form.getlist('select_files')
+  files = []
+  for i in file_id:
+    data = Data.query.get(i)
+    files.append(data.file_path)
+  
+  predict_file_path = pred_file(files)
+  return send_from_directory('download', predict_file_path, as_attachment=True)
 
 
 if __name__ == '__main__':

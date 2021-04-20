@@ -25,5 +25,5 @@ def reg_graph(file_path):
 
 
 if __name__ == '__main__':
-  result = reb_graph('static/data.xlsx')
+  result = reg_graph('static/data.xlsx')
   print(result)
