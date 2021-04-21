@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from flask import send_from_directory
 from reg_graph import reg_graph
 from pred_file import pred_file
+from select_merge import select_merge
 
 
 app = Flask(__name__)
@@ -121,6 +122,22 @@ def predict_file():
   
   predict_file_path = pred_file(files)
   return send_from_directory('download', predict_file_path, as_attachment=True)
+
+@app.route('/merge')
+def merge():
+  data = Data.query.all()
+  return render_template('select_file_merge.html', data=data)
+
+@app.route('/file_merge', methods=['POST'])
+def file_merge():
+  file_num = request.form.getlist('select_files')
+  files = []
+  for i in file_num:
+    data = Data.query.get(i)
+    files.append(data.file_path)
+  
+  merge_file_path = select_merge(files)
+  return send_from_directory('download', merge_file_path, as_attachment=True)
 
 
 if __name__ == '__main__':
