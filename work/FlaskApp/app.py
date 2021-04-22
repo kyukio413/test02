@@ -139,6 +139,27 @@ def file_merge():
   merge_file_path = select_merge(files)
   return send_from_directory('download', merge_file_path, as_attachment=True)
 
+#ダウンロードファイル一覧
+@app.route('/download')
+def download():
+  files = os.listdir('download')
+  return render_template('download_files.html', files=files)
+
+@app.route('/file_download/<file_path>', methods=['get'])
+def file_download(file_path):
+  return send_from_directory('download', file_path, as_attachment=True)
+
+@app.route('/file_delete/<file_path>', methods=['get'])
+def file_delete(file_path):
+  file_path = 'download/' + file_path
+  os.remove(file_path)
+  return redirect(url_for('index'))
+
+#使い方
+@app.route('/description')
+def description():
+  return render_template('howtouse.html')
+
 
 if __name__ == '__main__':
   app.run(debug=True)
